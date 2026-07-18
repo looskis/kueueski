@@ -5,8 +5,8 @@ edition = "2024"
 rust-version = "1.85"
 description = "A fast command-line client for BullMQ queues"
 license = "MIT"
-homepage = "https://github.com/lookevink/kueueski"
-repository = "https://github.com/lookevink/kueueski"
+homepage = "https://github.com/looski/kueueski"
+repository = "https://github.com/looski/kueueski"
 keywords = ["bullmq", "redis", "queue", "cli"]
 categories = ["command-line-utilities"]
 
