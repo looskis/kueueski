@@ -15,7 +15,7 @@ cargo install --path .
 Install the latest tagged release from the project tap:
 
 ```sh
-brew install kevinloo/tap/kueueski
+brew install lookevink/tap/kueueski
 ```
 
 Before the first tagged release, contributors can install directly from `HEAD`

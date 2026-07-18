@@ -14,5 +14,5 @@ targets = ["aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-unknown-linux-
 # Where to host releases
 hosting = "github"
 # Publish generated formulae to the project's Homebrew tap.
-tap = "kevinloo/homebrew-tap"
+tap = "lookevink/homebrew-tap"
 publish-jobs = ["homebrew"]

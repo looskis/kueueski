@@ -2,7 +2,7 @@
 
 ## One-time setup
 
-1. Create the public GitHub repository `kevinloo/homebrew-tap` with an initial
+1. Create the public GitHub repository `lookevink/homebrew-tap` with an initial
    README.
 2. Create a fine-grained GitHub token that can write repository contents in
    that tap.
@@ -20,8 +20,8 @@ automatically.
 3. Tag the commit (for example, `git tag v0.1.0`) and push the tag.
 4. `cargo-dist` builds macOS Apple Silicon, macOS Intel, and Linux x86-64
    archives, creates the GitHub release, and publishes the generated formula to
-   `kevinloo/homebrew-tap`.
-5. Verify the public path with `brew install kevinloo/tap/kueueski`.
+   `lookevink/homebrew-tap`.
+5. Verify the public path with `brew install lookevink/tap/kueueski`.
 
 Run `dist init` again when upgrading the `cargo-dist-version` in
 `dist-workspace.toml`; the release workflow is generated code.
