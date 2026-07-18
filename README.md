@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/kueueski-icon.png" alt="Kueueski logo" width="128" height="128">
+</p>
+
 # kueueski
 
 `kueueski` is a small, script-friendly CLI for inspecting and operating
