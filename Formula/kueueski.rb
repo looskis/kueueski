@@ -1,8 +1,8 @@
 class Kueueski < Formula
   desc "Fast command-line client for BullMQ queues"
-  homepage "https://github.com/looski/kueueski"
+  homepage "https://github.com/looskis/kueueski"
   license "MIT"
-  head "https://github.com/looski/kueueski.git", branch: "main"
+  head "https://github.com/looskis/kueueski.git", branch: "main"
 
   depends_on "rust" => :build
 
