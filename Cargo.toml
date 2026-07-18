@@ -5,6 +5,7 @@ edition = "2024"
 rust-version = "1.85"
 description = "A fast command-line client for BullMQ queues"
 license = "MIT"
+homepage = "https://github.com/kevinloo/kueueski"
 repository = "https://github.com/kevinloo/kueueski"
 keywords = ["bullmq", "redis", "queue", "cli"]
 categories = ["command-line-utilities"]
@@ -25,3 +26,8 @@ predicates = "3.1"
 lto = "thin"
 strip = true
 codegen-units = 1
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

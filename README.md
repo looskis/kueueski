@@ -12,14 +12,15 @@ Build from source:
 cargo install --path .
 ```
 
-Before the first tagged release, install the Homebrew formula from `HEAD`:
+Install the latest tagged release from the project tap:
 
 ```sh
-brew install --HEAD ./Formula/kueueski.rb
+brew install kevinloo/tap/kueueski
 ```
 
-After this repository has a stable tagged release, the formula can be submitted
-to a tap or to Homebrew core. See [RELEASING.md](RELEASING.md).
+Before the first tagged release, contributors can install directly from `HEAD`
+with `brew install --HEAD ./Formula/kueueski.rb`. See
+[RELEASING.md](RELEASING.md) for the one-time tap setup and release process.
 
 ## Usage
 
@@ -59,4 +60,3 @@ cargo fmt --check
 
 Integration tests that exercise Redis can be added against any disposable
 Redis 7 instance; the current test suite does not require a running server.
-

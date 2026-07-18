@@ -1,6 +1,7 @@
 use std::path::PathBuf;
+use std::str::FromStr;
 
-use anyhow::{Context, Result, bail};
+use anyhow::{Context, Result};
 use bullmq::options::RedisConnectionOptions;
 use bullmq::{Queue, QueueOptions};
 use clap::{Parser, Subcommand};
@@ -17,7 +18,7 @@ struct Cli {
         default_value = "redis://127.0.0.1:6379",
         global = true
     )]
-    redis_url: String,
+    redis_url: RedisUrl,
 
     /// BullMQ Redis key prefix.
     #[arg(long, env = "KUEUESKI_PREFIX", default_value = "bull", global = true)]
@@ -65,10 +66,30 @@ struct Status {
     counts: std::collections::HashMap<String, u64>,
 }
 
+#[derive(Clone, Debug)]
+struct RedisUrl(String);
+
+impl RedisUrl {
+    fn as_str(&self) -> &str {
+        &self.0
+    }
+}
+
+impl FromStr for RedisUrl {
+    type Err = String;
+
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
+        if value.starts_with("redis://") || value.starts_with("rediss://") {
+            Ok(Self(value.to_owned()))
+        } else {
+            Err("Redis URL must begin with redis:// or rediss://".to_owned())
+        }
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     let cli = Cli::parse();
-    validate_redis_url(&cli.redis_url)?;
 
     let queue_name = match &cli.command {
         Command::Status { queue }
@@ -144,10 +165,10 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-async fn connect(name: &str, redis_url: &str, prefix: &str) -> Result<Queue> {
+async fn connect(name: &str, redis_url: &RedisUrl, prefix: &str) -> Result<Queue> {
     let options = QueueOptions {
         connection: RedisConnectionOptions {
-            url: redis_url.to_owned(),
+            url: redis_url.as_str().to_owned(),
             ..Default::default()
         },
         prefix: prefix.to_owned(),
@@ -156,14 +177,6 @@ async fn connect(name: &str, redis_url: &str, prefix: &str) -> Result<Queue> {
     Queue::with_options(name, options)
         .await
         .with_context(|| format!("failed to connect to Redis for queue '{name}'"))
-}
-
-fn validate_redis_url(url: &str) -> Result<()> {
-    if url.starts_with("redis://") || url.starts_with("rediss://") {
-        Ok(())
-    } else {
-        bail!("Redis URL must begin with redis:// or rediss://")
-    }
 }
 
 fn read_data(data: Option<String>, data_file: Option<PathBuf>) -> Result<Value> {
@@ -206,14 +219,14 @@ mod tests {
 
     #[test]
     fn accepts_plain_and_tls_redis_urls() {
-        assert!(validate_redis_url("redis://localhost:6379").is_ok());
-        assert!(validate_redis_url("rediss://example.com:6380").is_ok());
+        assert!(RedisUrl::from_str("redis://localhost:6379").is_ok());
+        assert!(RedisUrl::from_str("rediss://example.com:6380").is_ok());
     }
 
     #[test]
     fn rejects_other_url_schemes() {
-        let error = validate_redis_url("https://example.com").unwrap_err();
-        assert!(error.to_string().contains("redis:// or rediss://"));
+        let error = RedisUrl::from_str("https://example.com").unwrap_err();
+        assert!(error.contains("redis:// or rediss://"));
     }
 
     #[test]
